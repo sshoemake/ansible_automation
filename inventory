@@ -1,1 +1,3 @@
-odroidn2.local 
+[all]
+odroidc5.local ansible_python_interpreter=/usr/bin/python3
+odroidm2.local ansible_python_interpreter=/usr/bin/python3

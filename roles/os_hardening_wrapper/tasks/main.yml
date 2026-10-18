@@ -1,0 +1,16 @@
+---
+- name: Read current mmap_rnd_bits
+  command: cat /proc/sys/vm/mmap_rnd_bits
+  register: mmap_current
+  changed_when: false
+
+- name: Set safe mmap_rnd_bits override
+  set_fact:
+    hardened_sysctl_overrides:
+      vm.mmap_rnd_bits: "{{ mmap_current.stdout | int }}"
+
+- name: Run DevSec OS hardening
+  include_role:
+    name: devsec.hardening.os_hardening
+  vars:
+    sysctl_config: "{{ hardened_sysctl_overrides }}"

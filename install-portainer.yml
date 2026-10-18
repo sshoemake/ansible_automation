@@ -1,0 +1,24 @@
+---
+- name: Install or update Portainer CE container
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Ensure the Portainer data volume exists
+      community.docker.docker_volume:
+        name: portainer_data
+        state: present
+
+    - name: Create or update the Portainer container
+      community.docker.docker_container:
+        name: portainer
+        image: portainer/portainer-ce:latest
+        pull: always
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "8000:8000"
+          - "9443:9443"
+        volumes:
+          - portainer_data:/data
+          - /var/run/docker.sock:/var/run/docker.sock

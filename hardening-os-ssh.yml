@@ -1,0 +1,6 @@
+---
+- hosts: all
+  become: true
+  roles:
+    - os_hardening_wrapper
+    - devsec.hardening.ssh_hardening
